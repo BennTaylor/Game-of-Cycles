@@ -33,14 +33,14 @@ int main(int argc, char** argv) {
     // sp5.print_info();
     
     // lemon wedge graph of 3 cells
-    string f_w3 = "../board_encodings/wedge3_encoding.txt";
-    GOC w3 = GOC(f_w3);
-    w3.compute_tree();
-    w3.mex_rule_normal();
-    w3.mex_rule_misere();
-    w3.print_info();
+    // string f_w3 = "../board_encodings/wedge3_encoding.txt";
+    // GOC w3 = GOC(f_w3);
+    // w3.compute_tree();
+    // w3.mex_rule_normal();
+    // w3.mex_rule_misere();
+    // w3.print_info();
 
-    w3.play_game(false);
+    // w3.play_game(false);
 
     // // complete graph of three nodes (triangle board)
     // string f_tr = "../board_encodings/K3_encoding.txt";
@@ -65,4 +65,40 @@ int main(int argc, char** argv) {
     // sun3.mex_rule_normal();
     // sun3.mex_rule_misere();
     // sun3.print_info();
+
+    // 4-cell lemon wedge
+    // string f_wedge4 = "../board_encodings/wedge4_encoding.txt";
+    // GOC wedge4 = GOC(f_wedge4);
+    // wedge4.compute_tree();
+    // wedge4.mex_rule_normal();
+    // wedge4.mex_rule_misere();
+    // wedge4.print_info();
+    // wedge4.play_game(false);
+
+    // 5-cell lemon wedge
+    // string f_wedge5 = "../board_encodings/wedge5_encoding.txt";
+    // GOC wedge5 = GOC(f_wedge5);
+    // wedge5.compute_tree();
+    // wedge5.mex_rule_normal();
+    // wedge5.mex_rule_misere();
+    // wedge5.print_info();
+    // wedge5.play_game(false);
+
+    // 6-cell lemon wedge
+    // string f_wedge6 = "../board_encodings/wedge6_encoding.txt";
+    // GOC wedge6 = GOC(f_wedge6);
+    // wedge6.compute_tree();
+    // wedge6.mex_rule_normal();
+    // wedge6.mex_rule_misere();
+    // wedge6.print_info();
+    // wedge6.play_game(false);
+
+    // 7-cell lemon wedge
+    // string f_wedge7 = "../board_encodings/wedge7_encoding.txt";
+    // GOC wedge7 = GOC(f_wedge7);
+    // wedge7.compute_tree();
+    // wedge7.mex_rule_normal();
+    // wedge7.mex_rule_misere();
+    // wedge7.print_info();
+    // wedge7.play_game(false);
 }
