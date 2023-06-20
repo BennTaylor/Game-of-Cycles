@@ -343,34 +343,117 @@ int GOC::hash_to_mis_nimber(int h) {
     return node_to_mis_nimber_[hash_to_node_[h]];
 }
 
-// void GOC::play_game(bool normal_play) {
-//     // intended for use w/ knowledge of n and p positions
-//     if ((normal_play && node_to_norm_nimber_.empty()) || 
-//         (!normal_play && node_to_mis_nimber_.empty())) {
-//         throw invalid_argument("Nimbers not yet calculated.");
-//     }
+void GOC::play_game(bool normal_play) {
+    // intended for use w/ knowledge of n and p positions
+    if ((normal_play && node_to_norm_nimber_.empty()) || 
+        (!normal_play && node_to_mis_nimber_.empty())) {
+        throw invalid_argument("Nimbers not yet calculated.");
+    }
 
-//     State game = State();
+    cout << "---------------------------- Game of Cycles on " << board_name_ << " Board ----------------------------" << endl;
+    if (normal_play) {
+        cout << "** Normal play style **\n" << endl;
+    } else {
+        cout << "** Misere play style **\n" << endl;
+    }
 
-//     set<pair<short int, bool>> avail_moves = legal_moves(game);
-//     set<pair<short int, bool>> p_moves = p_moves(games, normal_play);
+    State game = State();
+    game.markings = vector<short int>(edges_.size());
+    game.outgoing_edges = vector<short int>(vertex_degrees_.size());
 
-//     while (!game.game_over && !avail_moves.empty()) {
-//         cout << "Turn " << game.turn << ", ";
-//         if (game.turn%2 == 0) {
-//             cout << "player 1's move:" << endl;
-//         } else {
-//             cout << "player 2's move:" << endl;
-//         }
+    set<pair<short int, bool>> avail_moves = legal_moves(game);
 
-//         print_moves(avail_moves);
+    while (!game.game_over && !avail_moves.empty()) {
+        // display info of game state to console
+        cout << "Turn " << game.turn+1 << ", ";
+        if (game.turn%2 == 0) {
+            cout << "player 1's move:" << endl;
+        } else {
+            cout << "player 2's move:" << endl;
+        }
+        cout << "moves written as (edge, orientation), 0 = - & 1 = +" << endl;
+        cout << "Available moves:     ";
+        print_moves(avail_moves);
+        cout << "Moves to p-position: ";
+        print_moves(p_moves(game, normal_play));
 
-//         if ()
+        // get player's move
+        short int e;    // edge
+        bool o;         // orientation
+        cout << "edge:        ";
+        cin >> e;
+        cout << "orientation: ";
+        cin >> o;
 
-//         avail_moves = legal_moves(game);
-//     }
+        pair<short int, bool> m = pair<short int, short int>(e,o);
+        bool legal = (avail_moves.find(m)!=avail_moves.end());
+        // retry input if not a legal move
+        while(!legal) {
+            cout << "Not a legal move. Try again:" << endl;
+            cout << "edge:        ";
+            cin >> e;
+            cout << "orientation: ";
+            cin >> o;
 
-// }
+            m = pair<short int, short int>(e,o);
+            legal = (avail_moves.find(m)!=avail_moves.end());
+        }
+        cout << endl;
+
+        // update game state w/ player's move
+        take_turn(m, &game);
+
+        avail_moves = legal_moves(game);
+    }
+
+    cout << "*** GAME OVER ***" << endl;
+    cout << "edges marked: " << game.turn << endl;
+    cout << "winner: ";
+    if ((normal_play && game.turn%2==0) ||
+        (!normal_play && game.turn%2==1)) {
+        cout << "player 2" << endl;
+    } else {
+        cout << "player 1" << endl;
+    }
+    cout << endl;
+
+}
+
+set<pair<short int, bool>> GOC::p_moves(State s, bool normal_play) {
+    set<pair<short int, bool>> p_moves;
+    int h = s.hash;
+    for (auto child_node : hash_to_node_[h]->children) {
+        State child_state = child_node->state;
+        if ((normal_play && hash_to_norm_nimber(child_state.hash)==0) ||
+            (!normal_play && hash_to_mis_nimber(child_state.hash)==0)) {
+            p_moves.insert(hash_to_move(child_state.hash - h));
+        }
+    }
+    return p_moves;
+}
+
+pair<short int, bool> GOC::hash_to_move(int h) {
+    short int e = 0;
+    while (h>=3) {
+        h /= 3;
+        e++;
+    }
+    if (h==1) {     // pos. orientation
+        return pair<short int, bool>(e, true);
+    } else {        // neg. orientation
+        return pair<short int, bool>(e, false);
+    }
+}
+
+void GOC::print_moves(set<pair<short int, bool>> moves) {
+    if (moves.empty()) {
+        cout << "...no moves available...";
+    }
+    for (auto move : moves) {
+        cout << "(" << move.first << ", " << move.second << ") ";
+    }
+    cout << endl;
+}
 
 pair<short int, short int> GOC::edges_parser(string& l) {
     pair<short int, short int> p = pair<short int, short int>();

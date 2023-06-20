@@ -152,7 +152,24 @@ private:
      */
     bool cell_cycled(State* s);
 
-    
+    /*
+     * Displays given moves to console.
+     * Used by play_game.
+     */
+    void print_moves(set<pair<short int, bool>> moves);
+
+    /*
+     * Returns set of moves to a game state which is a p-position.
+     * Looks at nimbers of child states of s in game tree.
+     * normal_play = true means normal nimbers used; false meanse misere nimbers used.
+     */
+    set<pair<short int, bool>> p_moves(State s, bool normal_play);
+
+    /*
+     * Helper for p_moves.
+     * Given the difference in hashes between a game state and a child state, the corr. move is returned as a pair.
+     */
+    pair<short int, bool> hash_to_move(int h);
 
 // member vars
     /*

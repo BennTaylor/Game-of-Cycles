@@ -40,9 +40,7 @@ int main(int argc, char** argv) {
     w3.mex_rule_misere();
     w3.print_info();
 
-    cout << "misere nimber w/ edge 0 marked (+): " <<  w3.hash_to_mis_nimber(1) << endl;
-    cout << "misere nimber w/ edge 2 marked (+): " <<  w3.hash_to_mis_nimber(9) << endl;
-    cout << "misere nimber w/ edges 2 and 0 marked (both +): " <<  w3.hash_to_mis_nimber(10) << endl;
+    w3.play_game(false);
 
     // // complete graph of three nodes (triangle board)
     // string f_tr = "../board_encodings/K3_encoding.txt";
