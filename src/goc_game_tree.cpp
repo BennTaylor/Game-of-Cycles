@@ -233,11 +233,9 @@ void GOC::mex_rule_normal() {
             }
         }
     }
-    int count = 0;
     // ...then reverse level order trav. is done by popping from stack
     while (!s.empty()) {
         root = s.top();
-        count++;
 
         // compute mex here
         if (root->state.game_over) {
@@ -293,11 +291,9 @@ void GOC::mex_rule_misere() {
             }
         }
     }
-    int count = 0;
     // ...then reverse level order trav. is done by popping from stack
     while (!s.empty()) {
         root = s.top();
-        count++;
 
         // compute mex here
         if (root->state.game_over) {
