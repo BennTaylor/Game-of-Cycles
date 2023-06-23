@@ -68,6 +68,8 @@ public:
      */
     void play_game(bool normal_play);
 
+    string name() { return board_name_; }
+
 private:
 // structs
     /*

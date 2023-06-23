@@ -381,7 +381,7 @@ void GOC::play_game(bool normal_play) {
         cout << "orientation: ";
         cin >> o;
 
-        pair<short int, bool> m = pair<short int, short int>(e,o);
+        pair<short int, bool> m = pair<short int, bool>(e,o);
         bool legal = (avail_moves.find(m)!=avail_moves.end());
         // retry input if not a legal move
         while(!legal) {
