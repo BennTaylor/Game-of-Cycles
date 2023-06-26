@@ -1,5 +1,5 @@
-# Ben's Game Program 
-# https://github.com/<to be filled in later>
+# Game of Cycles Program 
+# https://github.com/BennTaylor/Game-of-Cycles
 #
 # 19-Jun-2023
 

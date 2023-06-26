@@ -1,4 +1,4 @@
-COUNTEREXAMPLE GRAPH
+Conjecture 4.1 Counter Ex. 1
 6 7
 EDGES
 2 1
