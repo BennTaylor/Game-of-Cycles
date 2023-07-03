@@ -1,0 +1,17 @@
+Square fish w/ Triangle tail
+8 10
+EDGES
+0 1
+1 2
+2 3
+3 0
+0 4
+4 5
+5 3
+0 6
+6 7
+7 0
+CYCLES
++0 +1 +2 +3
++3 +4 +5 +6
++7 +8 +9
