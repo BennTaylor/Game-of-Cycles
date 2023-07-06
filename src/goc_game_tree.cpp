@@ -367,6 +367,14 @@ void GOC::play_game(bool normal_play) {
         } else {
             cout << "player 2's move:" << endl;
         }
+
+        cout << "Nimber of game-state: ";
+        if (normal_play) {
+            cout << hash_to_norm_nimber(game.hash) << endl;
+        } else {
+            cout << hash_to_mis_nimber(game.hash) << endl;
+        }
+
         cout << "moves written as (edge, orientation), 0 = - & 1 = +" << endl;
         cout << "Available moves:     ";
         print_moves(avail_moves);
@@ -449,6 +457,44 @@ void GOC::print_moves(set<pair<short int, bool>> moves) {
         cout << "(" << move.first << ", " << move.second << ") ";
     }
     cout << endl;
+}
+
+void GOC::nimbers_to_file() {
+    // output file setup
+    fstream file;
+    string f_path = "../nimber_data/\""+board_name_+"\" nimbers";
+    file.open(f_path, ios_base::out | ios_base::in);
+    if (file.is_open()) {   // existing file
+        cout << "file already exists; work this out later" << endl;
+    } else {                // create new file
+        file.clear();
+        file.open(f_path, ios_base::out);
+    }
+    file << "LEVEL HASH NIMBER" << endl;
+    queue<Node*> q;
+    map<Node*, bool> seen;
+    q.push(head_);
+    seen[head_] = true;
+    while (!q.empty()) {
+        Node* n = q.front();
+        for (Node* child : n->children) {
+            if (seen.find(child)==seen.end()) {
+                seen[child] = true;
+                q.push(child);
+            }
+        }
+        file << n->state.turn << " " << to_base_3(n->state.hash) << " " << node_to_norm_nimber_[n] << endl;
+        q.pop();
+    }
+}
+
+string GOC::to_base_3(int h) {
+    string s = "";
+    for (int i=0; i<edges_.size(); i++) {
+        s = to_string(h%3)+s;
+        h/=3;
+    }
+    return s;
 }
 
 pair<short int, short int> GOC::edges_parser(string& l) {

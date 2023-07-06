@@ -68,6 +68,14 @@ public:
      */
     void play_game(bool normal_play);
 
+    /*
+     * Writes nimber data of gameboard to file
+     */
+    void nimbers_to_file();
+
+    /*
+     * Getter for name of game board.
+     */
     string name() { return board_name_; }
 
 private:
@@ -172,6 +180,12 @@ private:
      * Given the difference in hashes between a game state and a child state, the corr. move is returned as a pair.
      */
     pair<short int, bool> hash_to_move(int h);
+
+    /*
+     * Helper for nimbers_to_file
+     * converts hash of game state into base three for easier reading.
+     */
+    string to_base_3(int h);
 
 // member vars
     /*

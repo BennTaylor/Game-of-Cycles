@@ -1,4 +1,4 @@
-4 Cell Lemon Wedge w/ rogue triangle
+4 Cell Lemon Wedge w/ Rogue Triangle
 8 12
 EDGES
 0 1

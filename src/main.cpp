@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
         cout << "Example input: ./main K4_encoding.txt" << endl;
 
         return 0;
-    } else {
+    } else if (argc ==2) {
         string encoding_file = "../board_encodings/";
         encoding_file += argv[1];
 
@@ -58,5 +58,15 @@ int main(int argc, char** argv) {
             cin >> cont;
             cout << endl;
         }
+    } else if (strcmp(argv[2],"to_file")==0) {
+        string encoding_file = "../board_encodings/";
+        encoding_file += argv[1];
+
+        GOC board = GOC(encoding_file);
+        board.compute_tree();
+        board.mex_rule_normal();
+        board.mex_rule_misere();
+        
+        board.nimbers_to_file();
     }
 }

@@ -1,4 +1,4 @@
-kite
+Triangle-tail Fish
 6 8
 EDGES
 0 1
