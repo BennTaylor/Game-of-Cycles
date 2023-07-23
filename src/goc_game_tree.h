@@ -11,7 +11,6 @@
 #include <stdexcept>
 #include <cmath>
 
-
 using namespace std;
 
 class GOC {
@@ -47,13 +46,6 @@ public:
      * Returns the number calculated by mex_rule() corr. w/ the unique hash of a game state (misere play).
      */
     int hash_to_mis_nimber(int h);
-
-    /*
-     * For user play through console;
-     * attempts to move plyr1 (or plyr2 if p1==false) to p-positions
-     * given other players' moves.
-     */
-    // void decision_maker(bool p1);
 
     /*
      * Displays analysis to terminal.

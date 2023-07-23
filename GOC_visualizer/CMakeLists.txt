@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.4)
+set (PYBIND11_PYTHON_VERSION "3.9.6")
+project(game_of_cycles)
+add_subdirectory(pybind11)
+pybind11_add_module(module_goc goc_binding.cpp)

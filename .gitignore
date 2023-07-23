@@ -1,1 +1,5 @@
 .vscode/
+GOC_visualizer/pybind11/
+GOC_visualizer/pybind_goc_test.py
+GOC_visualizer/env/
+GOC_visualizer/build/
