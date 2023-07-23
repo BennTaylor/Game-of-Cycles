@@ -1,5 +1,0 @@
-/Users/bentaylor/Desktop/Game_of_Cycles/GOC_visualizer/build/CMakeFiles/module_ex.dir
-/Users/bentaylor/Desktop/Game_of_Cycles/GOC_visualizer/build/CMakeFiles/edit_cache.dir
-/Users/bentaylor/Desktop/Game_of_Cycles/GOC_visualizer/build/CMakeFiles/rebuild_cache.dir
-/Users/bentaylor/Desktop/Game_of_Cycles/GOC_visualizer/build/pybind11/CMakeFiles/edit_cache.dir
-/Users/bentaylor/Desktop/Game_of_Cycles/GOC_visualizer/build/pybind11/CMakeFiles/rebuild_cache.dir
