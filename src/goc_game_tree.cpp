@@ -65,7 +65,7 @@ void GOC::compute_tree() {
 
 void GOC::compute_descendants(Node* n) {
     set<pair<short int, bool>> next_moves = legal_moves(n->state);
-    // quick for board w/ no remaining moves and update game_over flag
+    // quick check for board w/ no remaining moves and update game_over flag
     if (next_moves.empty()) {
         n->state.game_over = true;
     }

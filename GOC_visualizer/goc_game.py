@@ -1,7 +1,7 @@
 import pygame
 import math
 import numpy as np
-import pybind11
+import os
 
 pygame.init()
 
@@ -21,9 +21,12 @@ YELLOW, CYAN, MAGENTA = (255,255,0), (0,255,255), (255,0,255)
 # graph vars setup
 nodes = []      # stores coords of node as pair (x,y)
 edges = []      # stores edge u->v as pair (u,v)
-marked = []     # stores whether edge is marked or not
+markings = []     # stores whether edge is marked or not // 0 = not marked, 1 = positive orientation, 2 = negative orientation
+cycles = []     # stores list of cycle-cells in graph; 
+                # each entry a tuple of (edge, orientation) where edge is index of edge in edges 
+                # and orientation is True (positive) or False (negative)
 
-def draw_vertices_from_file(board_name):
+def load_vertices_from_file(board_name):
     """
         Intializes nodes of board in pygame;
         Reads from /board_embeddings/<board_name>_embedding.txt to determine
@@ -44,7 +47,7 @@ def draw_vertices_from_file(board_name):
 
     file.close()
 
-def draw_edges_from_file(board_name):
+def load_encoding_from_file(board_name):
     """
         Initializes edges of board in pygame;
         Reads from /board_encodings/<board_name>_encoding.txt to determine
@@ -55,6 +58,7 @@ def draw_edges_from_file(board_name):
 
     lines = file.readlines()
 
+    i = 3
     for line in lines[3:]:
         if line == "CYCLES\n":
             break
@@ -63,9 +67,23 @@ def draw_edges_from_file(board_name):
         u, v = int(edge[0]), int(edge[1])
         edges.append((u,v))
         marked.append(False)
+        i += 1
 
         # drawing edge u->v and adding as Rect object
         pygame.draw.line(screen, GRAY, nodes[u], nodes[v])
+
+    # storing cycle cells
+    for line in lines[i+1:]:
+        cycle = []
+        entries = line.split()
+        for j in range(len(entries)):
+            if entries[j][0] == "+":
+                cycle.append((int(entries[j][1:]), True))
+            else:
+                cycle.append((int(entries[j][1:]), False))
+        cycles.append(cycle)
+                
+    file.close()
 
 
 def mouse_on_edge(edge_index):
@@ -133,43 +151,68 @@ def mark_edge(edge_ind):
         pygame.draw.polygon(screen, BLUE, triangle)
 
     if ( ((x-e1[0])**2)+((y-e1[1])**2) < ((x-e2[0])**2)+((y-e2[1])**2) ):   # closer to e1
+        markings[edge_ind] = 2
         draw_marking(edges[edge_ind][0],edges[edge_ind][1])
     else:
+        markings[edge_ind] = 1
         draw_marking(edges[edge_ind][1],edges[edge_ind][0])
 
     pygame.draw.line(screen, BLUE, nodes[edges[edge_ind][0]], nodes[edges[edge_ind][1]])
-    marked[edge_ind] = True
 
-screen.fill(WHITE)
-draw_vertices_from_file("K4")
-draw_edges_from_file("K4")
-pygame.display.update()
+def play_game(board_name):
+    screen.fill(WHITE)
+    load_vertices_from_file(board_name)
+    load_encoding_from_file(board_name)
+    pygame.display.update()
 
+    # game loop
+    game_active = True
+    while run:
+        mouse_down = False
+        # check for game quit
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_down = True
+
+        # check for mouse collision with edges
+        for i in range(len(edges)):
+            edge = edges[i]
+            if marked[i]:
+                continue
+            if mouse_on_edge(i):
+                if mouse_down:
+                    mark_edge(i)
+                else:                
+                    pygame.draw.line(screen, RED, nodes[edge[0]], nodes[edge[1]])
+            else:
+                pygame.draw.line(screen, GRAY, nodes[edge[0]], nodes[edge[1]])
+
+        pygame.display.update()
+        clock.tick(frame_rate)
+
+
+# menu setup
+boards = []
+dir = "../board_encodings/"
+for file in dir:
+    if file.endswith("_encoding.txt"):
+        boards.append(file[:-13])
+
+# outmost game loop; functions as game menu
 run = True
-while run:
-    mouse_down = False
-    # check for game quit
+while(run):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_down = True
 
-    # check for mouse collision with edges
-    for i in range(len(edges)):
-        edge = edges[i]
-        if marked[i]:
-            continue
-        if mouse_on_edge(i):
-            if mouse_down:
-                mark_edge(i)
-            else:                
-                pygame.draw.line(screen, RED, nodes[edge[0]], nodes[edge[1]])
-        else:
-            pygame.draw.line(screen, GRAY, nodes[edge[0]], nodes[edge[1]])
-
-    pygame.display.update()
-    clock.tick(frame_rate)
-
-
+    # ... check if click on menu button for board ...
+    play_game(board)
+    nodes = []
+    edges = [] 
+    marked = []
+    
 pygame.quit()
